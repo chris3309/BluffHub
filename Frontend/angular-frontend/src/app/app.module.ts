@@ -8,6 +8,17 @@ import { LoginComponent } from './login-create/login/login.component';
 import { LeaderboardComponent } from './leaderboard-create/leaderboard/leaderboard.component';
 import { GameComponent } from './game-create/game/game.component';
 
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from "@angular/material/form-field";
+
+
+// Material Imports
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatExpansionModule } from '@angular/material/expansion';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +29,14 @@ import { GameComponent } from './game-create/game/game.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatInputModule,
+    MatCardModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
