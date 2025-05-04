@@ -10,6 +10,7 @@ import { GameComponent } from './game-create/game/game.component';
 
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { CommonModule } from '@angular/common';
 
 
 // Material Imports
@@ -38,7 +39,8 @@ import { SignupComponent } from './login-create/signup/signup.component';
     MatToolbarModule,
     MatExpansionModule,
     MatFormFieldModule,
-    FormsModule
+    FormsModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
