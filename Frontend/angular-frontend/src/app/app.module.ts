@@ -18,6 +18,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { SignupComponent } from './login-create/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     HeaderComponent,
     LoginComponent,
     LeaderboardComponent,
-    GameComponent
+    GameComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
