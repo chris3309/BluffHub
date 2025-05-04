@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-
+import { Component, inject  } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 @Component({
   selector: 'app-signup',
   standalone: false,
@@ -10,4 +10,17 @@ export class SignupComponent {
   enteredUserName = "";
   enteredPassword="";
   enteredPassword2="";
+
+  fb = inject(FormBuilder);
+  form = this.fb.nonNullable.group({
+    username: ['', Validators.required ],
+    password: ['', Validators.required],
+  });
+
+  onSubmit():void{
+    console.log('Sign Up');
+  }
+
+
+
 }

@@ -1,16 +1,16 @@
 <h2 id="signupText"> Sign Up </h2>
-<div id="inputField">
+<form id="inputField" [formGroup]="form" (ngSubmit)="onSubmit()">
   <mat-form-field>
     <p>Username</p>
-    <input matInput id="urN" type="text" name="usrName" [(ngModel)]="enteredUserName">
+    <input matInput id="urN" type="text" name="usrName">
   </mat-form-field>
   <mat-form-field>
     <p>Password</p>
-    <input matInput id="pW" type="pssWd" name="passWrd" [(ngModel)]="enteredPassword">
+    <input matInput id="pW" type="pssWd" name="passWrd">
   </mat-form-field>
   <mat-form-field>
     <p>Confirm Password</p>
-    <input matInput id="pW" type="pssWd" name="passWrd" [(ngModel)]="enteredPassword2">
+    <input matInput id="pW" type="pssWd" name="passWrd">
   </mat-form-field>
-  <button id="loginButton">Sign Up</button>
-<div>
+  <button id="loginButton" type="submit">Sign Up</button>
+</form>

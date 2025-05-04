@@ -10,7 +10,7 @@ import { GameComponent } from './game-create/game/game.component';
 
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from "@angular/material/form-field";
-import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 // Material Imports
@@ -20,7 +20,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { SignupComponent } from './login-create/signup/signup.component';
-
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+//import { Component, OnInit } from '@angular/core';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +42,9 @@ import { SignupComponent } from './login-create/signup/signup.component';
     MatExpansionModule,
     MatFormFieldModule,
     FormsModule,
-    CommonModule
+    CommonModule,
+    RouterLink,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

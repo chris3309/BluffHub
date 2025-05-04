@@ -1,13 +1,13 @@
 <!--<p>login works!</p>-->
 <h2 id="loginText"> Log In </h2>
-<div id="inputField">
+<form id="inputField" [formGroup]="form" (ngSubmit)="onSubmit()">
   <mat-form-field>
     <p>Username</p>
-    <input matInput id="urN" type="text" name="usrName" [(ngModel)]="enteredUserName">
+    <input matInput id="urN" type="text" name="usrName">
   </mat-form-field>
   <mat-form-field>
     <p>Password</p>
-    <input matInput id="pW" type="pssWd" name="passWrd" [(ngModel)]="enteredPassword">
+    <input matInput id="pW" type="pssWd" name="passWrd">
   </mat-form-field>
-  <button id="loginButton">Log In</button>
-<div>
+  <button id="loginButton" type="submit">Log In</button>
+</form>
