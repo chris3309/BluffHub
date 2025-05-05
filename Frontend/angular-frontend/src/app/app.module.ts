@@ -22,6 +22,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { SignupComponent } from './login-create/signup/signup.component';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 //import { Component, OnInit } from '@angular/core';
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { RouterLink } from '@angular/router';
     FormsModule,
     CommonModule,
     RouterLink,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

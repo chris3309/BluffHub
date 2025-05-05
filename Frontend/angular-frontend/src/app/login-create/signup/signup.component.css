@@ -42,3 +42,27 @@ mat-form-field p {
 #loginButton:hover {
   background: #d32f2f;
 }
+nav {
+  background-color: red;
+  width: 100%;
+  padding: 10px 0;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center; /* centers the links horizontally */
+  align-items: center;
+}
+
+nav li {
+  margin: 0 50px; /* space between the links */
+}
+
+nav a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
