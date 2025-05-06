@@ -25,7 +25,7 @@ export class SignupComponent {
   authService = inject(AuthService);
   onSubmit():void{
     //console.log('Signing Up Process Begin...');
-    this.http.post<{ user: UserInterface }>('http://localhost:3000/auth/register', {
+    this.http.post<{ user: UserInterface }>('http://localhost:3000/api/auth/signup', {
       user: this.form.getRawValue(),
     }).subscribe((response) => {
       console.log("response", response);
@@ -34,7 +34,5 @@ export class SignupComponent {
       this.router.navigateByUrl('/home')
     });
   }
-
-
 
 }
