@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const PORT = process.env.PORT || 3000;
 const Users = require('./models/user.model');
+
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = 'yourSuperEpicSecretKey';
 //const authRoutes = require('./routes/auth.routes');
 
 const app = express();
@@ -14,7 +17,12 @@ app.post('/api/auth/signup', async (req,res)=>{
     console.log(req.body);
     //res.json({ token });
     const user = await Users.create(req.body);
-    res.send(req.body)
+
+    const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '1h' });
+    res.status(201).json({ token });
+
+    res.status(201).json({ token, user: { username } });
+    //res.send(req.body)
     //next();
   } catch (err) { //next(err);
     res.status(500).json({message: error.message});
@@ -39,7 +47,10 @@ app.post('/api/auth/login', async (req, res) => {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
 
+    const token = jwt.sign({ username: user.username }, JWT_SECRET, { expiresIn: '1h' });
+
     res.status(200).json({
+      token,
       user: {
         username: user.username
       }
