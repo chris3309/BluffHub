@@ -11,9 +11,6 @@ import { Router } from '@angular/router';
   styleUrl: './signup.component.css'
 })
 export class SignupComponent {
-  enteredUserName = "";
-  enteredPassword="";
-  enteredPassword2="";
 
   router = inject(Router);
   fb = inject(FormBuilder);
@@ -25,13 +22,12 @@ export class SignupComponent {
   authService = inject(AuthService);
   onSubmit():void{
     //console.log('Signing Up Process Begin...');
-    this.http.post<{ user: UserInterface }>('http://localhost:3000/api/auth/signup', {
-      user: this.form.getRawValue(),
-    }).subscribe((response) => {
-      console.log("response", response);
-      localStorage.setItem('token', response.user.token)
-      this.authService.currentUserSignal.set(response.user);
-      this.router.navigateByUrl('/home')
+    this.http.post<{ token: string }>('http://localhost:3000/api/auth/signup', this.form.getRawValue()).subscribe({
+      next: ({ token }) => {
+        localStorage.setItem('token', token);
+        this.authService.setToken(token);
+        this.router.navigateByUrl('/home');
+      }
     });
   }
 

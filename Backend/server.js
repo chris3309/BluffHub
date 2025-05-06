@@ -10,9 +10,16 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/api/auth/signup', async (req,res)=>{
-  
-  console.log(req.body);
-  res.send(req.body);
+  try {
+    console.log(req.body);
+    //res.json({ token });
+    const user = await Users.create(req.body);
+    res.send(req.body)
+    //next();
+  } catch (err) { //next(err);
+    res.status(500).json({message: error.message});
+  }
+ 
 });
 
 
