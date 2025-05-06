@@ -27,12 +27,12 @@ export class LoginComponent {
   });
 
   onSubmit():void{
-    this.http.post<{ user: UserInterface }>('http://localhost:3000/api/auth/login', {
+    this.http.post<{token: string; user: UserInterface }>('http://localhost:3000/api/auth/login', {
       user: this.form.getRawValue(),
     }).subscribe({
       next: (response)=>{
         console.log("Login success", response);
-        localStorage.setItem('token', response.user.token);
+        localStorage.setItem('token', response.token);
         this.authService.currentUserSignal.set(response.user);
         this.router.navigateByUrl('/home');
       },
