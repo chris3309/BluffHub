@@ -13,7 +13,11 @@ app.post('/api/auth/signup', async (req,res)=>{
   try {
     console.log(req.body);
     //res.json({ token });
-    const user = await Users.create(req.body);
+    const user = await Users.create({
+      username: req.body.username,
+      password: req.body.password,
+      coins: 100
+    });
     res.send(req.body)
     //next();
   } catch (err) { //next(err);
