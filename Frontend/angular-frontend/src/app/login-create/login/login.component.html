@@ -10,11 +10,11 @@
 <form id="inputField" [formGroup]="form" (ngSubmit)="onSubmit()">
   <mat-form-field>
     <p>Username</p>
-    <input matInput id="urN" type="text" name="usrName">
+    <input matInput id="urN" type="text" name="usrName" formControlName="username" required>
   </mat-form-field>
   <mat-form-field>
     <p>Password</p>
-    <input matInput id="pW" type="pssWd" name="passWrd">
+    <input matInput id="pW" type="pssWd" name="passWrd" formControlName="password" required>
   </mat-form-field>
   <button id="loginButton" type="submit">Log In</button>
 </form>

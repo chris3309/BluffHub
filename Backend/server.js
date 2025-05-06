@@ -22,6 +22,35 @@ app.post('/api/auth/signup', async (req,res)=>{
  
 });
 
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { username, password } = req.body.user; // match the frontend shape
+
+    // Find user in DB
+    const user = await Users.findOne({ username });
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
+
+    // Check password
+    const passwordMatch = password === user.password; // if plain text (NOT recommended!)
+
+    if (!passwordMatch) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
+
+    res.status(200).json({
+      user: {
+        username: user.username
+      }
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 
 mongoose.connect('mongodb+srv://christopher:passw0rd@cluster0.pwjrtzs.mongodb.net/Node-API?retryWrites=true&w=majority&appName=Cluster0')
   .then(()=>{

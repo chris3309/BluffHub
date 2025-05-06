@@ -27,13 +27,19 @@ export class LoginComponent {
   });
 
   onSubmit():void{
-    this.http.post<{ user: UserInterface }>('http://localhost:3000/auth/login', {
+    this.http.post<{ user: UserInterface }>('http://localhost:3000/api/auth/login', {
       user: this.form.getRawValue(),
-    }).subscribe((response)=>{
-      console.log("response", response);
-      localStorage.setItem('token', response.user.token);
-      this.authService.currentUserSignal.set(response.user);
-      this.router.navigateByUrl('/home');
+    }).subscribe({
+      next: (response)=>{
+        console.log("Login success", response);
+        localStorage.setItem('token', response.user.token);
+        this.authService.currentUserSignal.set(response.user);
+        this.router.navigateByUrl('/home');
+      },
+    error: (err) => {
+      console.error("Login failed", err);
+      alert('Invalid username or password');
+    }
     });
   }
 }
