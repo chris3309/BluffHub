@@ -76,6 +76,50 @@ mongoose.connect('mongodb+srv://christopher:passw0rd@cluster0.pwjrtzs.mongodb.ne
     console.log("Connection failed.");
   })
 
+
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader?.split(' ')[1]; // "Bearer TOKEN"
+
+  if (!token) return res.sendStatus(401);
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user; // contains { username }
+    next();
+  });
+}
+
+// Get current user's coin count
+app.get('/api/user/coins', authenticateToken, async (req, res) => {
+  try {
+    const user = await Users.findOne({ username: req.user.username });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    console.log("Coins sent!");
+    res.json({ coins: user.coins });
+  } catch (err) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Update coins (e.g., +50 or -10)
+app.post('/api/user/coins/update', authenticateToken, async (req, res) => {
+  const { delta } = req.body; // positive or negative change
+
+  try {
+    const user = await Users.findOne({ username: req.user.username });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    user.coins += delta;
+    await user.save();
+
+    res.json({ coins: user.coins });
+  } catch (err) {
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 //app.use('/api/auth', authRoutes);
 
 //app.use((err, _req, res,next)=>
