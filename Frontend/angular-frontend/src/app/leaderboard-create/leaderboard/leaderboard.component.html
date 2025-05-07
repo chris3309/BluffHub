@@ -11,6 +11,7 @@
         <th>Rank</th>
         <th>Username</th>
         <th>Games</th>
+
         <th>Wins</th>
         <th>Win Rate</th>
         <th>Profit</th>
@@ -21,9 +22,10 @@
         <td>{{ i + 1 }}</td>
         <td>{{ entry.username }}</td>
         <td>{{ entry.games }}</td>
+
         <td>{{ entry.wins }}</td>
         <td>{{ (entry.winRate * 100) | number:'1.0-2' }}%</td>
-        <td>{{ entry.profit | currency }}</td>
+        <td id="profit">{{ entry.profit | currency }}</td>
       </tr>
     </tbody>
   </table>
