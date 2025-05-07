@@ -188,15 +188,17 @@ export class GameComponent implements OnInit {
       this.message = "Dealer busted! You win!";
       this.coins += this.bet * 2;
       win=true;
+      this.updateCoins(this.bet*2).subscribe();
     } else if (this.playerTotal > this.dealerTotal) {
       this.message = "You win!";
       this.coins += this.bet * 2;
       win=true;
+      this.updateCoins(this.bet*2).subscribe();
     } else if (this.playerTotal < this.dealerTotal) {
       this.message = "Dealer wins.";
       if (this.coins <= 0){
         this.coins = 1;
-        this.updateCoins(1).subscribe();;
+        this.updateCoins(1).subscribe();
         //this.ngOnInit();
       }
     } else {

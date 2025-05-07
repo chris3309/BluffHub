@@ -73,7 +73,7 @@ app.get('/api/leaderboard', async (req, res) => {
     const limit = Math.min(parseInt(req.query.limit, 10) || 10, 100);
     const sortKey = ['wins', 'profit', 'winRate'].includes(req.query.sort)
                    ? req.query.sort
-                   : 'wins';
+                   : 'profit';
     const days = parseInt(req.query.days, 10);          // undefined ⇒ all‑time
 
     // ---------- optional date filter ----------
