@@ -187,9 +187,11 @@ export class GameComponent implements OnInit {
     if (this.dealerTotal > 21) {
       this.message = "Dealer busted! You win!";
       this.coins += this.bet * 2;
+      win=true;
     } else if (this.playerTotal > this.dealerTotal) {
       this.message = "You win!";
       this.coins += this.bet * 2;
+      win=true;
     } else if (this.playerTotal < this.dealerTotal) {
       this.message = "Dealer wins.";
       if (this.coins <= 0){

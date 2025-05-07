@@ -1,1 +1,30 @@
 <app-header></app-header>
+<div class="leaderboard">
+  <h2>Leaderboard</h2>
+
+  <div *ngIf="loading">Loading…</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <table *ngIf="!loading && !error">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Username</th>
+        <th>Games</th>
+        <th>Wins</th>
+        <th>Win Rate</th>
+        <th>Profit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let entry of leaderboard; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ entry.username }}</td>
+        <td>{{ entry.games }}</td>
+        <td>{{ entry.wins }}</td>
+        <td>{{ (entry.winRate * 100) | number:'1.0-2' }}%</td>
+        <td>{{ entry.profit | currency }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

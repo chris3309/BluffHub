@@ -67,6 +67,79 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
+app.get('/api/leaderboard', async (req, res) => {
+  try {
+    // ---------- query‑param handling ----------
+    const limit = Math.min(parseInt(req.query.limit, 10) || 10, 100);
+    const sortKey = ['wins', 'profit', 'winRate'].includes(req.query.sort)
+                   ? req.query.sort
+                   : 'wins';
+    const days = parseInt(req.query.days, 10);          // undefined ⇒ all‑time
+
+    // ---------- optional date filter ----------
+    const matchStage = days
+      ? { $match: { createdAt: { $gte: new Date(Date.now() - days*24*60*60*1000) } } }
+      : { $match: {} };
+
+    // ---------- aggregation ----------
+    const pipeline = [
+      matchStage,
+
+      // group by player
+      {
+        $group: {
+          _id: '$username',
+          games:  { $sum: 1 },
+          wins:   { $sum: { $cond: ['$win', 1, 0] } },
+          profit: {                 // +bet if win, ‑bet if loss/tie
+            $sum: {
+              $cond: [
+                '$win',
+                '$betAmount',
+                { $multiply: ['$betAmount', -1] }
+              ]
+            }
+          }
+        }
+      },
+
+      // derived fields
+      {
+        $addFields: {
+          winRate: { $divide: ['$wins', '$games'] }
+        }
+      },
+
+      // choose sort key dynamically
+      {
+        $sort: {
+          [sortKey]: -1,
+          games: -1   // secondary sort for stability
+        }
+      },
+
+      { $limit: limit },
+
+      // rename _id for cleaner output
+      {
+        $project: {
+          _id: 0,
+          username: '$_id',
+          games: 1,
+          wins: 1,
+          winRate: { $round: ['$winRate', 3] },
+          profit: 1
+        }
+      }
+    ];
+
+    const leaderboard = await Hand.aggregate(pipeline).exec();
+    return res.json({ leaderboard });
+  } catch (err) {
+    console.error('Leaderboard aggregation failed:', err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+});
 
 app.post('/api/game-results', authenticateToken, async (req, res) => {
   console.log('result recieved');
