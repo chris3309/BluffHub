@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const PORT = process.env.PORT || 3000;
 const Users = require('./models/user.model');
-
+const Hand = require('./models/hand.model');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = 'yourSuperEpicSecretKey';
 //const authRoutes = require('./routes/auth.routes');
@@ -64,6 +64,36 @@ app.post('/api/auth/login', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
+
+app.post('/api/game-results', authenticateToken, async (req, res) => {
+  console.log('result recieved');
+  console.log(req.body);
+  try {
+    const username  = req.user.username;   // now guaranteed
+    const {
+      betAmount,
+      bust,
+      win,
+      handVal
+    } = req.body;
+    console.log(req.body);
+
+    // quick sanity check
+    if (betAmount == null || handVal == null ||
+        typeof bust !== 'boolean' || typeof win !== 'boolean') {
+      return res.status(400).json({ message: 'Missing or invalid fields' });
+    }
+
+    const hand = await Hand.create({ username, betAmount, bust, win, handVal });
+    
+    return res.status(201).json({ message: 'Round stored', hand });
+  } catch (err) {
+    console.error('Save game‑result failed:', err);
+    console.log(err);
+    return res.status(500).json({ message: 'Server error' });
   }
 });
 

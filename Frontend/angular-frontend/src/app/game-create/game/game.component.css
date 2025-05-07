@@ -118,7 +118,7 @@ h3{
   background: #d32f2f;
 }
 
-@media screen and (max-width: 1400px){
+@media screen and (max-width: 1000px){
 	#playerControls{
     display: flex;
     flex-direction: column;

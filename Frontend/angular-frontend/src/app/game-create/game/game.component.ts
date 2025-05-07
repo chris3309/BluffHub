@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { Card } from '../../card.interface';
-import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { GameResult } from '../../gameResult.interface';
+
 
 @Component({
   selector: 'app-game',
@@ -12,7 +14,7 @@ import { OnInit } from '@angular/core';
   styleUrl: './game.component.css'
 })
 export class GameComponent implements OnInit {
-  http = inject(HttpClient);
+  //http = inject(HttpClient);
 
   getCoins(): Observable<{ coins: number }> {
     const token = localStorage.getItem('token');
@@ -59,7 +61,7 @@ export class GameComponent implements OnInit {
   gameOver: boolean = false;
   showDealerHoleCard: boolean = false;
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.initDeck();
   }
 
@@ -87,6 +89,24 @@ export class GameComponent implements OnInit {
       }
     }
     this.shuffleDeck();
+  }
+
+  private finalizeRound(bust: boolean, win: boolean){
+    const result: GameResult ={
+      betAmount: this.bet,
+      bust,
+      win,
+      handVal: this.playerTotal,
+    };
+    console.log(result);
+    const headers = new HttpHeaders({
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      });
+    this.http.post<{betAmount: string, bust: boolean, win: boolean, handVal: number}>('http://localhost:3000/api/game-results', result, { headers }).subscribe({
+      next: ()=> console.log('Round Stored.'),
+      error: e => console.error('Failed to store round: ', e)
+    });
+    this.gameOver=true;
   }
 
   shuffleDeck() {
@@ -144,7 +164,7 @@ export class GameComponent implements OnInit {
 
     if (this.playerTotal > 21) {
       this.message = "You busted! Dealer wins.";
-      this.gameOver = true;
+      this.finalizeRound(true,false);
       this.showDealerHoleCard = true;
       if (this.coins <= 0){
         this.coins = 1;
@@ -155,6 +175,7 @@ export class GameComponent implements OnInit {
   }
 
   stand() {
+    let win=false;
     if (this.gameOver) return;
     this.showDealerHoleCard = true;
 
@@ -166,13 +187,9 @@ export class GameComponent implements OnInit {
     if (this.dealerTotal > 21) {
       this.message = "Dealer busted! You win!";
       this.coins += this.bet * 2;
-      this.updateCoins(this.bet * 2).subscribe();;
-      //this.ngOnInit();
     } else if (this.playerTotal > this.dealerTotal) {
       this.message = "You win!";
       this.coins += this.bet * 2;
-      this.updateCoins(this.bet * 2).subscribe();;
-      //this.ngOnInit();
     } else if (this.playerTotal < this.dealerTotal) {
       this.message = "Dealer wins.";
       if (this.coins <= 0){
@@ -187,7 +204,7 @@ export class GameComponent implements OnInit {
       //this.ngOnInit();
     }
 
-    this.gameOver = true;
+    this.finalizeRound(false, win);
   }
 
   getPlayerHandString() {
