@@ -13,6 +13,36 @@
   margin-top: 50px;
 }
 
+#playerHand{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 1rem;
+  min-width: 320px;
+  padding: 2.5rem 3rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  width: 80%;
+  margin:auto;
+  margin-top: 50px;
+}
+
+#dealerHand{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 1rem;
+  min-width: 320px;
+  padding: 2.5rem 3rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  width: 80%;
+  margin:auto;
+  margin-top: 50px;
+}
+
 h3{
   margin-left: 250px;
 }
@@ -147,4 +177,11 @@ h3{
     margin-right: 250px;
   }
 
+  #playerText{
+    margin-left: 100px;
+  }
+
+  #dealerText{
+    margin-left: 100px;
+  }
 }

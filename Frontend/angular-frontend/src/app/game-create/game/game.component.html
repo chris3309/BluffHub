@@ -1,15 +1,52 @@
 <app-header></app-header>
+
 <div id="playerControls">
-  <form id="betForm">
+  <form id="betForm" (submit)="onPlay(bet)">
     <mat-form-field>
       <p>Bet amount</p>
-      <input matInput id="bet" type="number" step="1" inputmode="numeric">
+      <input matInput #bet type="number" step="1" inputmode="numeric">
     </mat-form-field>
     <button id="playButton" type="submit">Play</button>
   </form>
 
-  <h3>Current Coins: some int</h3>
+  <h3>Current Coins: {{ coins }}</h3>
 
-  <button id="hitButton">Hit</button>
-  <button id="stayButton">Stay</button>
+  <button id="hitButton" (click)="hit()" [disabled]="gameOver">Hit</button>
+  <button id="stayButton" (click)="stand()" [disabled]="gameOver">Stay</button>
+
+  <p>{{ message }}</p>
 </div>
+
+<div id="playerHand">
+  <h3 id="playerText">Player Hand ({{ playerTotal }}):</h3>
+  <div style="display: flex; gap: 5px;">
+    <div *ngFor="let card of playerHand">
+      <pre style="font-family: monospace; font-size: 14px; line-height: 1;">
+        {{ getCardAsciiString(card) }}
+      </pre>
+    </div>
+  </div>
+</div>
+
+<div id="dealerHand">
+  <h3 id="dealerText">Dealer Hand ({{ showDealerHoleCard ? dealerTotal : '?' }}):</h3>
+  <div style="display: flex; gap: 5px;">
+    <div *ngFor="let card of dealerHand; let i = index">
+      <pre style="font-family: monospace; font-size: 14px; line-height: 1;" *ngIf="showDealerHoleCard || i === 0; else hiddenCard">
+        {{ getCardAsciiString(card) }}
+      </pre>
+      <ng-template #hiddenCard>
+        <pre>
+┌─────────┐
+│░░░░░░░░░│
+│░░░░░░░░░│
+│░░░░░░░░░│
+│░░░░░░░░░│
+│░░░░░░░░░│
+└─────────┘
+        </pre>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
