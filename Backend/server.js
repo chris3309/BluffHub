@@ -5,7 +5,10 @@ const PORT = process.env.PORT || 3000;
 const Users = require('./models/user.model');
 const Hand = require('./models/hand.model');
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = 'yourSuperEpicSecretKey';
+require('dotenv').config();
+const JWT_SECRET = process.env.JWT_SECRET;
+const MONGODB_URI= process.env.MONGODB_URI;
+
 //const authRoutes = require('./routes/auth.routes');
 
 const app = express();
@@ -172,7 +175,7 @@ app.post('/api/game-results', authenticateToken, async (req, res) => {
 });
 
 
-mongoose.connect('mongodb+srv://christopher:passw0rd@cluster0.pwjrtzs.mongodb.net/Node-API?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect(MONGODB_URI)
   .then(()=>{
     console.log("Connected to database");
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
