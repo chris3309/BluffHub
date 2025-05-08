@@ -16,6 +16,11 @@ export class SignupComponent {
   router = inject(Router);
   fb = inject(FormBuilder);
   http = inject(HttpClient)
+
+  loginclick(){
+    this.router.navigateByUrl('/login');
+  }
+
   form = this.fb.nonNullable.group({
     username: ['', Validators.required ],
     password: ['', Validators.required],
