@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth.service';
 import { UserInterface } from '../../user.interface';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -14,12 +15,15 @@ import { UserInterface } from '../../user.interface';
 export class LoginComponent {
   enteredUserName = "";
   enteredPassword="";
-
+  private loginApiURL = environment.apiUrl+"/auth/login";
   fb = inject(FormBuilder);
   router=inject(Router);
   http = inject(HttpClient);
   authService = inject(AuthService);
 
+  signupclick(){
+    this.router.navigateByUrl("/signup");
+  }
 
   form = this.fb.nonNullable.group({
     username: ['', Validators.required],
@@ -27,7 +31,7 @@ export class LoginComponent {
   });
 
   onSubmit():void{
-    this.http.post<{token: string; user: UserInterface }>('http://localhost:3000/api/auth/login', {
+    this.http.post<{token: string; user: UserInterface }>(this.loginApiURL, {
       user: this.form.getRawValue(),
     }).subscribe({
       next: (response)=>{

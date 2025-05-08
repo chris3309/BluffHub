@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { GameResult } from '../../gameResult.interface';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -15,11 +16,13 @@ import { GameResult } from '../../gameResult.interface';
 })
 export class GameComponent implements OnInit {
   //http = inject(HttpClient);
-
+  private getCoinsApiURL = environment.apiUrl+"/user/coins";
+  private updateCoinsApiURL = environment.apiUrl+"/user/coins/update";
+  private gameResultApiURL = environment.apiUrl+"/game-results";
   getCoins(): Observable<{ coins: number }> {
     const token = localStorage.getItem('token');
     if (!token) throw new Error('No token found');
-    return this.http.get<{ coins: number }>('http://localhost:3000/api/user/coins', {
+    return this.http.get<{ coins: number }>(this.getCoinsApiURL, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -28,7 +31,7 @@ export class GameComponent implements OnInit {
 
   updateCoins(delta: number) {
     const token = localStorage.getItem('token');
-    return this.http.post<{ coins: number }>('http://localhost:3000/api/user/coins/update', { delta }, {
+    return this.http.post<{ coins: number }>(this.updateCoinsApiURL, { delta }, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -102,7 +105,7 @@ export class GameComponent implements OnInit {
     const headers = new HttpHeaders({
         Authorization: `Bearer ${localStorage.getItem('token')}`
       });
-    this.http.post<{betAmount: string, bust: boolean, win: boolean, handVal: number}>('http://localhost:3000/api/game-results', result, { headers }).subscribe({
+    this.http.post<{betAmount: string, bust: boolean, win: boolean, handVal: number}>(this.gameResultApiURL, result, { headers }).subscribe({
       next: ()=> console.log('Round Stored.'),
       error: e => console.error('Failed to store round: ', e)
     });

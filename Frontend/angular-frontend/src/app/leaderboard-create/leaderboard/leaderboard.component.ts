@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 interface LeaderboardEntry {
   username: string;
@@ -22,7 +23,7 @@ export class LeaderboardComponent implements OnInit {
   limit       = 10;    // fetch top-10 by default
 
   constructor(private http: HttpClient) {}
-
+  private leaderboardApiURL = environment.apiUrl+"/leaderboard";
   ngOnInit(): void {
     this.fetchLeaderboard();
   }
@@ -32,7 +33,7 @@ export class LeaderboardComponent implements OnInit {
     this.error   = null;
 
     this.http
-      .get<{ leaderboard: LeaderboardEntry[] }>('http://localhost:3000/api/leaderboard', {
+      .get<{ leaderboard: LeaderboardEntry[] }>(this.leaderboardApiURL, {
         params: { limit: this.limit.toString() }
       })
       .subscribe({

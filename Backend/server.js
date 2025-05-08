@@ -65,6 +65,7 @@ app.post('/api/auth/login', async (req, res) => {
     console.error(err);
     res.status(500).json({ message: 'Internal Server Error' });
   }
+  console.log('loggin in');
 });
 
 app.get('/api/leaderboard', async (req, res) => {

@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserInterface } from '../../user.interface';
 import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-signup',
   standalone: false,
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrl: './signup.component.css'
 })
 export class SignupComponent {
-
+  private signupApiURL = environment.apiUrl+'/auth/signup';
   router = inject(Router);
   fb = inject(FormBuilder);
   http = inject(HttpClient)
