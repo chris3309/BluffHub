@@ -46,3 +46,9 @@ DJ, Chris, Brian; Documentation and presentation writing
 
 
 -Presentation link-
+
+
+-Instructions to run file-
+Create a file named ".env" in Backend and add the following lines;
+JWT_SECRET='yourSuperEpicSecretKey'
+MONGODB_URI='mongodb+srv://christopher:passw0rd@cluster0.pwjrtzs.mongodb.net/Node-API?retryWrites=true&w=majority&appName=Cluster0'

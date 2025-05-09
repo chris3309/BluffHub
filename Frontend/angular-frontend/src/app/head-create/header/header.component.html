@@ -3,5 +3,10 @@
   <ul text-align='center'>
     <button (click)="gameNav()">Game</button>
     <button (click)="leaderNav()">Leaderboard</button>
+
+    <div *ngIf="username" class="welcome">
+      Welcome, {{ username }}!
+    </div>
+    
   </ul>
 </nav>

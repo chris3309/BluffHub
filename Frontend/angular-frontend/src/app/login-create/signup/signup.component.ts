@@ -5,6 +5,7 @@ import { UserInterface } from '../../user.interface';
 import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
+import { UserService } from '../../user.service';
 @Component({
   selector: 'app-signup',
   standalone: false,
@@ -26,7 +27,14 @@ export class SignupComponent {
     password: ['', Validators.required],
   });
   authService = inject(AuthService);
+
+  displayUsername = '';
+
+  userService = inject(UserService);
+
   onSubmit():void{
+    const username = this.form.get('username')?.value || '';
+    this.userService.setUsername(username);
     //console.log('Signing Up Process Begin...');
     this.http.post<{ token: string }>(this.signupApiURL, this.form.getRawValue()).subscribe({
       next: ({ token }) => {

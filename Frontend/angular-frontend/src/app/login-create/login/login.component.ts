@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../auth.service';
 import { UserInterface } from '../../user.interface';
 import { environment } from '../../../environments/environment';
+import { UserService } from '../../user.service';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,7 @@ export class LoginComponent {
   router=inject(Router);
   http = inject(HttpClient);
   authService = inject(AuthService);
+  userService = inject(UserService);
 
   signupclick(){
     this.router.navigateByUrl("/signup");
@@ -35,6 +37,7 @@ export class LoginComponent {
       user: this.form.getRawValue(),
     }).subscribe({
       next: (response)=>{
+        this.userService.setUsername(response.user.username);
         console.log("Login success", response);
         localStorage.setItem('token', response.token);
         this.authService.currentUserSignal.set(response.user);

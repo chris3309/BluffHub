@@ -9,7 +9,7 @@
 <form id="inputField" [formGroup]="form" (ngSubmit)="onSubmit()">
   <mat-form-field>
     <p>Username</p>
-    <input matInput id="urN" type="text" name="usrName" formControlName="username" required>
+    <input matInput id="urN" type="text" name="usrName" formControlName="username" [(ngModel)]="displayUsername" required>
   </mat-form-field>
   <mat-form-field>
     <p>Password</p>
