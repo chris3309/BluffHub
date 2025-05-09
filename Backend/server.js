@@ -25,15 +25,17 @@ app.post('/api/auth/signup', async (req,res)=>{
       coins: 100
     });
 
+    const { username, password } = req.body;
+
     const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '1h' });
     res.status(201).json({ token });
 
-    res.status(201).json({ token, user: { username } });
+    //res.status(201).json({ token, username: { username } });
 
     //res.send(req.body)
     //next();
   } catch (err) { //next(err);
-    res.status(500).json({message: error.message});
+    res.status(500).json({message: err.message});
   }
  
 });

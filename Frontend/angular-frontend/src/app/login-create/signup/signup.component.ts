@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
   styleUrl: './signup.component.css'
 })
 export class SignupComponent {
-  private signupApiURL = environment.apiUrl+'/auth/signup';
+  private signupApiURL = environment.apiUrl+"/auth/signup";
   router = inject(Router);
   fb = inject(FormBuilder);
   http = inject(HttpClient)
@@ -28,7 +28,7 @@ export class SignupComponent {
   authService = inject(AuthService);
   onSubmit():void{
     //console.log('Signing Up Process Begin...');
-    this.http.post<{ token: string }>('http://localhost:3000/api/auth/signup', this.form.getRawValue()).subscribe({
+    this.http.post<{ token: string }>(this.signupApiURL, this.form.getRawValue()).subscribe({
       next: ({ token }) => {
         localStorage.setItem('token', token);
         this.authService.setToken(token);
